@@ -30,7 +30,7 @@ class ProductsList(Resource):
                 if filter_key in Product()._data.keys():
                     objects_products = objects_products.filter(**{filter_key: filter_value})
                 elif filter_key in ('order',):
-                    return jsonify(Product.objects.order_by('-title').all())
+                    return jsonify(Product.objects.order_by('title').all())
                 else:
                     return jsonify('Некорректный фильтр')
             return jsonify(objects_products)
@@ -39,7 +39,7 @@ class ProductsList(Resource):
                 return jsonify(Product.objects.all())
             return 'No data'
         else:
-            return jsonify(Product.objects(_id=ObjectId(slug)))
+            return jsonify(Product.objects.get(id=ObjectId(slug)))
 
     def post(self):
         parser = reqparse.RequestParser()
